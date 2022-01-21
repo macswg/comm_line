@@ -6,3 +6,6 @@
 
 # Ignore files related to API keys
 .env
+
+# Ignore this reference file
+python_test_script_forRef.py
