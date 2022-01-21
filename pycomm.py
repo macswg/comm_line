@@ -29,6 +29,7 @@ bucket = 'pybucket'
 org = 'org1'
 influx_instance = os.environ.get('INFLUX_PIHOST')  # the influxdb server
 
+
 # influxdb_client takes three named parameters: url, org, and token
 # write_api method configures the writer object
 client = influxdb_client.InfluxDBClient(url=influx_instance, token=token, org=org,)
@@ -82,14 +83,12 @@ def ping_bool(i):
 # INPUT DATA - capture data
 #
 #
-# ip_list = {
-#     'rPiNetCont': '192.168.1.203',
-#     'rPieKids': '192.168.1.247',
-# }
+#
 
 
 # TODO: Have python query db for last ping time and then give output (like a warning) if time since last ping reply
 #       is above a certian time. 
+#       ** may just do this with the database alerts - prob. a better deadman switch. 
 
 
 # OUTPUT DATA - outputs to Influxdb
