@@ -1,4 +1,4 @@
-#! python3
+#!/usr/bin/env python3
 # This is a script to capture some data from a machine and then send it to influx database.
 # This program written in Python 3.9
 # This program only works with InfluxDBv2 (v1 'InfluxDBClient' will not work)
@@ -15,6 +15,7 @@ import time
 
 load_dotenv()  # loads enviromental variables from .env file
 
+#logging.disable(logging.CRITICAL)
 logging.basicConfig(
     filename='pycommLog.txt',
     level=logging.DEBUG,
@@ -36,7 +37,7 @@ client = influxdb_client.InfluxDBClient(url=influx_instance, token=token, org=or
 write_api = client.write_api(write_options=SYNCHRONOUS)
 
 
-def ping(host_or_ip, packets=1, timeout=1000):
+def ping(host_or_ip, packets=1, timeout=5000):
     ''' Calls system "ping" command, returns True if ping succeeds.
     Required parameter: host_or_ip (str, address of host to ping)
     Optional parameters: packets (int, number of retries), timeout (int, ms to wait for response)
@@ -61,7 +62,7 @@ def ping(host_or_ip, packets=1, timeout=1000):
         # we search the text "TTL=" on the command output. If it's there, the ping really had a response.
         return result.returncode == 0 and b'TTL=' in result.stdout
     else:
-        command = ['ping', '-c', str(packets), '-W', str(timeout), host_or_ip]
+        command = ['ping', '-c', str(packets), '-w', str(timeout), host_or_ip]
         # run parameters: discard output and error messages
         result = subprocess.run(
             command,
@@ -124,4 +125,5 @@ while True:
         logging.debug('server, host = ' + str(server) + str(host_ip))
         logging.debug('p list bottom = ' + str(p))
     write_api.write(bucket=bucket, org=org, record=p)
+    logging.debug('write_api completed -- begin sleep')
     time.sleep(10)
