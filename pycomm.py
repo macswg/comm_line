@@ -15,7 +15,7 @@ import time
 
 load_dotenv()  # loads enviromental variables from .env file
 
-#logging.disable(logging.CRITICAL)
+# logging.disable(logging.CRITICAL)
 logging.basicConfig(
     filename='pycommLog.txt',
     level=logging.DEBUG,
